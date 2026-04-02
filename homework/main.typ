@@ -1,8 +1,8 @@
 #import "@preview/ezexam:0.3.0": *
 #import "@preview/zebraw:0.6.1": *
-#import "@preview/subpar:0.2.2"
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
-#import "@preview/pinit:0.2.2": *
+// #import "@preview/subpar:0.2.2"
+// #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
+// #import "@preview/pinit:0.2.2": *
 
 #set page(height: auto)
 #set par(justify: true)
@@ -12,6 +12,7 @@
 #show: setup.with(
     mode: EXAM,
     resume: false,
+    ref-color: blue,
 )
 #show link: it => text(fill: blue.darken(20%))[#underline(it)]
 
@@ -73,4 +74,51 @@
 
 #question()[
     (_22.5-7_) A directed graph $G = (V, E)$ is *_semiconnected_* if, for all pairs of vertices $u, v in V$, we have $u arrow.r.squiggly v$ or $v arrow.r.squiggly u$. Give an efficient algorithm to determine whether or not $G$ is semiconnected. Prove that your algorithm is correct, and analyze its running time.
+]
+= No.4
+#question()[
+    (_23.1-5_) Let $e$ be a maximum-weight edge on some cycle of connected graph $G = (V, E)$. Prove that there is a minimum spanning tree of $G' = (V, E - {e})$ that is also a minimum spanning tree of $G$. That is, there is a minimum spanning tree of $G$ that does not include $e$.
+]
+
+#question()[
+    (_23.2-1_) Kruskal's algorithm can return different spanning trees for the same input graph $G$, depending on how it breaks ties when the edges are sorted into order. Show that for each minimum spanning tree $T$ of $G$, there is a way to sort the edges of $G$ in Kruskal's algorithm so that the algorithm returns $T$.
+]
+
+#question()[
+    (_23.2-8_) Professor Borden proposes a new divide-and-conquer algorithm for computing minimum spanning trees, which goes as follows. Given a graph $G = (V, E)$, partition the set $V$ of vertices into two sets $V_1$ and $V_2$ such that $bar.v V_1 bar.v$ and $bar.v V_2 bar.v$ differ by at most $1$. Let $E_1$ be the set of edges that are incident only on vertices in $V_1$, and let $E_2$ be the set of edges that are incident only on vertices in $V_2$. Recursively solve a minimum-spanning-tree problem on each of the two subgraphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$. Finally, select the minimum-weight edge in $E$ that crosses the cut $(V_1, V_2)$, and use this edge to unite the resulting two minimum spanning trees into a single spanning tree.
+
+    Either argue that the algorithm correctly computes a minimum spanning tree of $G$, or provide an example for which the algorithm fails.
+]
+
+#question()[
+    (_23-4_)  In this problem, we give pseudocode for three different algorithms. Each one takes a connected graph and a weight function as input and returns a set of edges $T$. For each algorithm, either prove that $T$ is a minimum spanning tree or prove that $T$ is not a minimum spanning tree. Also describe the most efficient implementation of each algorithm, whether or not it computes a minimum spanning tree.
+    #set enum(numbering: n => emph(strong(numbering("a.", n))))
+
+    + MAYBE-MST-A(G, w)
+        ```
+        sort the edges into nonincreasing order of edge weights w
+        T = E
+        for each edge e, taken in nonincreasing order by weight
+            if T - {e} is a connected graph
+                T = T - {e}
+        return T
+        ```
+    + MAYBE-MST-B(G, w)
+        ```
+        T = Ø
+        for each edge e, taken in arbitrary order
+            if T ∪ {e} has no cycles
+                T = T ∪ {e}
+        return T
+        ```
+    + MAYBE-MST-C(G, w)
+        ```
+        T = Ø
+        for each edge e, taken in arbitrary order
+            T = T ∪ {e}
+            if T has a cycle c
+                let e' be a maximum-weight edge on c
+                T = T - {e}
+        return T
+        ```
 ]
