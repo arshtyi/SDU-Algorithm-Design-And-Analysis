@@ -16,9 +16,9 @@
 #show: style-algorithm
 
 #title[
-    山东大学计算机科学与技术学院 \
-    24 数据、智能算法设计与分析课后作业
+    山东大学计算机科学与技术学院算法设计与分析课后作业
 ]
+#exam-info(info: (班级: "24智能", 教师: "姜海涛"))
 #notice(
     [出于方便使用#link("https://github.com/gbchu/ezexam", "gbchu/ezexam:0.3.1")作模板.],
     [源码:#link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis").],
@@ -170,3 +170,8 @@
 #question[
     (_24.1-6_) Suppose that a weighted, directed graph $G = (V, E)$ has a negative-weight cycle. Give an efficient algorithm to list the vertices of one such cycle. Prove that your algorithm is correct.
 ]
+= No.6
+#question[
+    (_24.3-2_) Give a simple example of a directed graph with negative-weight edges for which Dijkstra's algorithm produces incorrect answers. Why doesn't the proof of Theorem 24.6 go through when negative-weight edges are allowed?
+]
+
