@@ -1,45 +1,135 @@
 #import "@preview/ezexam:0.3.1": *
-// #import "@preview/lovelace:0.3.1": *
-// 如果有一个介于lavelace和algorithmic之间的包就好了(,后者其实更加接近一般的pseudocode样式,但是确实不太适合用于此处(指L95)
 #import "@preview/algorithmic:1.0.7"
 #import algorithmic: algorithm-figure, style-algorithm
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
-#set page(height: auto)
-#set par(justify: true)
-#set smartquote(quotes: "\"\"")
 #show: setup.with(
     mode: EXAM,
     resume: false,
+    heading-top: 0em,
+    heading-bottom: .4em,
+    line-height: .65em,
+    par-spacing: .65em,
+    enum-spacing: .65em,
+    list-spacing: .65em,
 )
-#show link: it => text(fill: blue.darken(20%), underline(it))
-#show strong: it => text(weight: "bold", it)
+#set par(justify: true)
+#show link: it => text(fill: blue.darken(40%), underline(it))
+#show raw: set text(font: ("JetBrains Mono", "Noto Serif CJK SC", "Noto Sans CJK SC"))
+#show raw.where(block: false): box.with(
+    fill: luma(240),
+    inset: (x: .3em, y: 0em),
+    outset: (x: 0em, y: .3em),
+    radius: .2em,
+)
+#show raw.where(block: true): block.with(
+    fill: luma(248),
+    stroke: 0.5pt + rgb("bfbfbf"),
+    inset: 0.7em,
+    radius: 4pt,
+)
 #show: style-algorithm
 
-#title[
-    山东大学计算机科学与技术学院算法设计与分析课后作业
-]
-#exam-info(info: (班级: "24智能", 教师: "姜海涛"))
-#notice(
-    [出于方便使用#link("https://github.com/gbchu/ezexam", "gbchu/ezexam:0.3.1")作模板.],
-    [源码:#link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis", "source").],
-    [本课程作业来自#link("https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/", "The Book"). 本书的所有题解都容易找到,作者仅按自己的想法记录题目.],
-)
-
+#let Title = "山东大学计算机科学与技术学院算法设计与分析课后作业"
+#let author = "arsshtyi"
+#let date = datetime.today()
+#set document(title: Title, author: author, date: date)
+#title(Title)
+#exam-info(info: (
+    班级: "24智能",
+    教师: "姜海涛",
+    源码: link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis", "source"),
+    课本: link("https://mitpress.mit.edu/9780262046305/introduction-to-algorithms", "The Book"),
+))
 #let (ll) = (
     sym.lt.eq.slant
 )
 
 = No.1
 #question[
-    (_22.2-2_) Show the $d$ and $pi$ values that result from running breadth-first search on the undirected graph of Figure 22.3, using vertex $u$ as the source.
+    (_22.2-2_) Show the $d$ and $pi$ values that result from running breadth-first search on the undirected graph of Figure 22.3(also as follows), using vertex $u$ as the source.
+    #figure({
+        let vertex(pos, label, name, weight, fill: none, name-dx: 0, name-dy: -0.45, shape: circle) = {
+            node(
+                pos,
+                name: label,
+                shape: shape,
+                inset: 0pt,
+                stroke: 0.7pt,
+                fill: fill,
+                radius: 1em,
+            )[$#weight$]
+            node(
+                (rel: (name-dx, name-dy), to: label),
+                stroke: none,
+                inset: 0pt,
+            )[$#name$]
+        }
+        diagram(
+            node-stroke: .1em,
+            vertex((0, 1), <v>, `v`, $infinity$, name-dy: 0.45),
+            vertex((0, 0), <r>, `r`, $infinity$),
+            vertex((1, 0), <s>, `s`, $0$, fill: rgb("#dcddde")),
+            vertex((1, 1), <w>, `w`, $infinity$, name-dy: 0.45),
+            vertex((2, 1), <x>, `x`, $infinity$, name-dy: 0.45),
+            vertex((2, 0), <t>, `t`, $infinity$),
+            vertex((3, 0), <u>, `u`, $infinity$),
+            vertex((3, 1), <y>, `y`, $infinity$, name-dy: 0.45),
+            edge(<v>, <r>),
+            edge(<r>, <s>),
+            edge(<s>, <w>),
+            edge(<w>, <x>),
+            edge(<w>, <t>),
+            edge(<t>, <x>),
+            edge(<t>, <u>),
+            edge(<x>, <y>),
+            edge(<u>, <y>),
+            edge(<u>, <x>),
+            node((3.7, .5), text(size: 15pt, `Q`), stroke: none),
+            vertex((4.2, .5), <Q>, $0$, $s$, name-dy: 0.45, fill: rgb("#dcddde"), shape: rect),
+        )
+    })<F1>
 ]
-
 #question[
     (_22.2-8_) The *_diameter_* of a tree $T=(V,E)$ is defined as $max_(u,v in V) delta(u, v)$, that is, the largest of all shortest-path distances in the tree. Give an efficient algorithm to compute the diameter of a tree, and analyze the running time of your algorithm.
 ]
 = No.2
 #question[
-    (_22.3-2_) Show how depth-first search works on the graph of Figure 22.6. Assume that the *for* loop of lines $5-7$ of the *DFS* procedure considers the vertices in alphabetical order, and assume that each adjacency list is ordered alphabetically. Show the discovery and finishing times for each vertex, and show the classification of each edge.
+    (_22.3-2_) Show how depth-first search works on the graph of Figure 22.6(also as follows). Assume that the *for* loop of lines $5-7$ of the *DFS* procedure considers the vertices in alphabetical order, and assume that each adjacency list is ordered alphabetically. Show the discovery and finishing times for each vertex, and show the classification of each edge.
+    #figure({
+        let node = node.with(radius: 1em)
+        let edge = edge.with(marks: "-}>")
+        diagram(
+            node-shape: circle,
+            node-fill: rgb("#dcddde"),
+            node-stroke: .1em,
+            mark-scale: 200%,
+            node((0, 2), `v`, name: <v>),
+            node((1, 1), `s`, name: <s>),
+            node((2, 2), `w`, name: <w>),
+            node((3, 0), `q`, name: <q>),
+            node((4, 1), `t`, name: <t>),
+            node((4, 2), `x`, name: <x>),
+            node((4, 3), `z`, name: <z>),
+            node((5, 2), `y`, name: <y>),
+            node((6, 0), `r`, name: <r>),
+            node((7, 1), `u`, name: <u>),
+            edge(<v>, <w>),
+            edge(<s>, <v>),
+            edge(<w>, <s>),
+            edge(<q>, <s>),
+            edge(<q>, <w>),
+            edge(<q>, <t>),
+            edge(<t>, <x>),
+            edge(<x>, <z>),
+            edge(<z>, <x>, bend: -50deg),
+            edge(<t>, <y>),
+            edge(<y>, <q>, bend: -50deg),
+            edge(<r>, <y>),
+            edge(<u>, <y>),
+            edge(<r>, <u>),
+        )
+    })<F2>
 ]
 
 #question[
@@ -55,11 +145,52 @@
 ]
 = No.3
 #question[
-    (_22.4-2_) Give a linear-time algorithm that takes as input a directed acyclic graph $G = (V, E)$ and two vertices $s$ and $t$, and returns the number of simple paths from $s$ to $t$ in $G$. For example, the directed acyclic graph of Figure 22.8 contains exactly four simple paths from vertex $p$ to vertex $v: p o v$, $p o r y v$, $p o s r y v$, and $p s r y v$. (Your algorithm needs only to count the simple paths, not list them.)
+    (_22.4-2_) Give a linear-time algorithm that takes as input a directed acyclic graph $G = (V, E)$ and two vertices $s$ and $t$, and returns the number of simple paths from $s$ to $t$ in $G$. For example, the directed acyclic graph of Figure 22.8(also as follows) contains exactly four simple paths from vertex $p$ to vertex $v: p o v$, $p o r y v$, $p o s r y v$, and $p s r y v$. (Your algorithm needs only to count the simple paths, not list them.)
+    #figure({
+        let node = node.with(radius: 1em)
+        let edge = edge.with(marks: "-}>")
+        let vertices = ("m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+        let row-lens = (4, 3, 4, 3)
+        let row-starts = (0, 4, 7, 11)
+        let get-row(i) = { if i < 4 { 0 } else if i < 7 { 1 } else if i < 11 { 2 } else { 3 } }
+        let draw-edge(from, to) = {
+            for i in range(to.len()) { edge(label(from), label(to.at(i))) }
+        }
+        diagram(
+            cell-size: 18mm,
+            node-shape: circle,
+            node-fill: rgb("#d1d2d3"),
+            node-stroke: .1em,
+            mark-scale: 200%,
+            for i in range(vertices.len()) {
+                let v = vertices.at(i)
+                let row = get-row(i)
+                let col = i - row-starts.at(row)
+                let n = row-lens.at(row)
+                let x = col - (n - 1) / 2
+                let y = row
+                node((x, y), name: label(v))[$#v$]
+            },
+            draw-edge("m", ("q", "r", "x")),
+            draw-edge("n", ("q", "u", "o")),
+            draw-edge("o", ("r", "v", "s")),
+            draw-edge("p", ("o", "s", "z")),
+            draw-edge("q", "t"),
+            draw-edge("r", ("u", "y")),
+            draw-edge("s", "r"),
+            draw-edge("t", ()),
+            draw-edge("u", "t"),
+            draw-edge("v", ("x", "w")),
+            draw-edge("w", "z"),
+            draw-edge("x", ()),
+            draw-edge("y", "v"),
+            draw-edge("z", ()),
+        )
+    })<F3>
 ]
 
 #question[
-    (_22.5-2_) Show how the procedure _STRONGLY-CONNECTED-COMPONENTS_ works on the graph of Figure 22.6. Specifically, show the finishing times computed in line 1 and the forest produced in line 3. Assume that the loop of lines 5-7 of *DFS* considers vertices in alphabetical order and that the adjacency lists are in alphabetical order.
+    (_22.5-2_) Show how the procedure _STRONGLY-CONNECTED-COMPONENTS_ works on the graph of Figure 22.6(also as @F2). Specifically, show the finishing times computed in line 1 and the forest produced in line 3. Assume that the loop of lines 5-7 of *DFS* considers vertices in alphabetical order and that the adjacency lists are in alphabetical order.
 ]
 
 #question[
@@ -129,42 +260,50 @@
             Return[$T$]
         })
     })
-
-    /*
-    #set enum(numbering: n => emph(strong(numbering("a.", n))))
-
-    + MAYBE-MST-A(G, w)
-        ```
-        sort the edges into nonincreasing order of edge weights w
-        T = E
-        for each edge e, taken in nonincreasing order by weight
-            if T - {e} is a connected graph
-                T = T - {e}
-        return T
-        ```
-    + MAYBE-MST-B(G, w)
-        ```
-        T = Ø
-        for each edge e, taken in arbitrary order
-            if T ∪ {e} has no cycles
-                T = T ∪ {e}
-        return T
-        ```
-    + MAYBE-MST-C(G, w)
-        ```
-        T = Ø
-        for each edge e, taken in arbitrary order
-            T = T ∪ {e}
-            if T has a cycle c
-                let e' be a maximum-weight edge on c
-                T = T - {e}
-        return T
-        ```
-    */
 ]
 = No.5
 #question[
-    (_24.1-1_) Run the Bellman-Ford algorithm on the directed graph of Figure 24.4, using vertex $z$ as the source. In each pass, relax edges in the same order as in the figure, and show the $d$ and $pi$ values after each pass. Now, change the weight of edge $(z, x)$ to $4$ and run the algorithm again, using $s$ as the source.
+    (_24.1-1_) Run the Bellman-Ford algorithm on the directed graph of Figure 24.4(also as follows), using vertex $z$ as the source. In each pass, relax edges in the same order as in the figure, and show the $d$ and $pi$ values after each pass. Now, change the weight of edge $(z, x)$ to $4$ and run the algorithm again, using $s$ as the source.
+    #figure({
+        let edge = edge.with(marks: "-}>", label-sep: .1em)
+        let vertex(pos, label, name, weight, name-dx: 0, name-dy: -.25, shape: circle) = {
+            node(
+                pos,
+                name: label,
+                shape: shape,
+                inset: 0pt,
+                stroke: 0.7pt,
+                fill: rgb("#dcddde"),
+                radius: 1em,
+            )[$#weight$]
+            node(
+                (rel: (name-dx, name-dy), to: label),
+                stroke: none,
+                inset: 0pt,
+            )[$#name$]
+        }
+        diagram(
+            cell-size: 18mm,
+            node-shape: circle,
+            node-stroke: .1em,
+            mark-scale: 200%,
+            vertex((0, .5), <s>, `s`, $0$, name-dx: -0.25, name-dy: 0),
+            vertex((1, 0), <t>, `t`, $infinity$),
+            vertex((2, 0), <x>, `x`, $infinity$),
+            vertex((1, 1), <y>, `y`, $infinity$, name-dy: 0.25),
+            vertex((2, 1), <z>, `z`, $infinity$, name-dy: 0.25),
+            edge(<s>, <t>, $6$),
+            edge(<s>, <y>, $7$, label-side: right),
+            edge(<t>, <x>, $5$, bend: 20deg),
+            edge(<t>, <y>, $8$),
+            edge(<t>, <z>, $-4$, label-pos: .8),
+            edge(<x>, <t>, $-2$, bend: 20deg, label-side: right),
+            edge(<y>, <x>, $-3$, label-pos: .8, label-side: right),
+            edge(<y>, <z>, $9$, label-side: right),
+            edge(<z>, <s>, $2$, label-pos: .2),
+            edge(<z>, <x>, $7$, label-side: right),
+        )
+    })<F4>
 ]
 
 #question[
@@ -175,3 +314,14 @@
     (_24.3-2_) Give a simple example of a directed graph with negative-weight edges for which Dijkstra's algorithm produces incorrect answers. Why doesn't the proof of Theorem 24.6 go through when negative-weight edges are allowed?
 ]
 
+= No.7
+#question[
+    (_25.2-5_) Suppose that we modify the way in which equation (25.7) handles equality:
+    $
+        pi_(i j)^((k))=cases(
+            pi_(i j)^((k - 1)) "if" d_(i j)^((k - 1)) < d_(i k)^((k - 1)) + d_(k j)^((k - 1)),
+            pi_(k j)^((k - 1)) "if" d_(i j)^((k - 1)) >= d_(i k)^((k - 1)) + d_(k j)^((k - 1))
+        )
+    $
+    Is this alternative definition of the predecessor matrix $product$ correct?
+]
