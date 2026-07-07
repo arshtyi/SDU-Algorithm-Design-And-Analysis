@@ -11,7 +11,6 @@
     enum-spacing: .65em,
     list-spacing: .65em,
 )
-#show link: it => text(fill: blue.darken(40%), underline(it))
 #show strong: it => text(weight: "bold", it)
 #set par(justify: true)
 
@@ -21,21 +20,18 @@
 #set document(title: Title, date: date, author: author)
 #title(Title)
 #exam-info(info: (
-    班级: "24智能",
+    班级: "24数据·24智能",
     教师: "姜海涛",
     时间: datetime(year: 2026, month: 4, day: 28).display("[year].[month].[day]") + "（W9）",
-    源码: link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis", "source"),
+    源码: link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis", "link"),
 ))
-#let (ll) = (
-    sym.lt.eq.slant
-)
 
 = 计算
 
 #question[
     给出下图中的强连通分支：
     #figure(diagram(
-        node-stroke: .1em,
+        node-stroke: 1pt,
         node((0, 0), `s`),
         edge("-|>"),
         node((1, 0), `t`),
@@ -64,7 +60,7 @@
 = 证明
 
 #question[
-    Let $G = (V, E, w)$ be an undirected connected weighted graph, *$T$ is a minimum spanning tree* of $G$, and *$T'$ is some other spanning tree* of $G$. Suppose that *$e$ and $e'$ are the maximum weight edges* in $T$ and $T'$ respectively. Prove that: $w(e) ll w(e')$
+    Let $G = (V, E, w)$ be an undirected connected weighted graph, *$T$ is a minimum spanning tree* of $G$, and *$T'$ is some other spanning tree* of $G$. Suppose that *$e$ and $e'$ are the maximum weight edges* in $T$ and $T'$ respectively. Prove that: $w(e) <= w(e')$.
 ]
 
 = 判断分析

@@ -14,7 +14,6 @@
     list-spacing: .65em,
 )
 #set par(justify: true)
-#show link: it => text(fill: blue.darken(40%), underline(it))
 #show raw: set text(font: ("JetBrains Mono", "Noto Serif CJK SC", "Noto Sans CJK SC"))
 #show raw.where(block: false): box.with(
     fill: luma(240),
@@ -36,14 +35,11 @@
 #set document(title: Title, author: author, date: date)
 #title(Title)
 #exam-info(info: (
-    班级: "24智能",
+    班级: "24数据·24智能",
     教师: "姜海涛",
-    源码: link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis", "source"),
-    课本: link("https://mitpress.mit.edu/9780262046305/introduction-to-algorithms", "The Book"),
+    源码: link("https://github.com/arshtyi/SDU-Algorithm-Design-And-Analysis", "link"),
+    课本: link("https://mitpress.mit.edu/9780262046305/introduction-to-algorithms", "link"),
 ))
-#let (ll) = (
-    sym.lt.eq.slant
-)
 
 = No.1
 #question[
@@ -137,7 +133,7 @@
 ]
 
 #question[
-    (_22.3-9_) Give a counterexample to the conjecture that if a directed graph $G$ contains a path from $u$ to $v$, then any depth-first search must result in $v.d ll u.f$.
+    (_22.3-9_) Give a counterexample to the conjecture that if a directed graph $G$ contains a path from $u$ to $v$, then any depth-first search must result in $v.d <= u.f$.
 ]
 
 #question[
